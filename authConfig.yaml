@@ -1,0 +1,13 @@
+apiVersion: enterprise.gloo.solo.io/v1
+kind: AuthConfig
+metadata:
+  name: plugin-auth
+  namespace: gloo-system
+spec:
+  configs:
+  - pluginAuth:
+      name: GeoFencing
+      pluginFileName: GeoFencing.so
+      exportedSymbolName: plugin
+      config:
+        Endpoint: http://ip-api.com/json

@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestHeader(t *testing.T) {
+func TestGeoFencing(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "RequiredHeader Suite")
+	RunSpecs(t, "GeoFencing Suite")
 }

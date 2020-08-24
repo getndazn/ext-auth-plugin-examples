@@ -1,9 +1,5 @@
-name: RequiredHeader
-pluginFileName: RequiredHeader.so
+name: GeoFencing
+pluginFileName: GeoFencing.so
 exportedSymbolName: Plugin
 config:
-  RequiredHeader: my-auth-header
-  AllowedValues:
-  - foo
-  - bar
-  - baz
+  Endpoint: http://ip-api.com/json

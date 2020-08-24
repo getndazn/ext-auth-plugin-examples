@@ -1,23 +1,24 @@
-module github.com/solo-io/ext-auth-plugin-examples
+module github.com/getndazn/ext-auth-plugin-examples
 
-go 1.14
+go 1.15
 
 require (
 	// Merged 'require' section of the Gloo depenencies and your go.mod file:
 	github.com/envoyproxy/go-control-plane v0.9.6-0.20200401235947-be7fefdaf0df
-	github.com/golang/protobuf v1.3.5 // indirect
+	github.com/envoyproxy/protoc-gen-validate v0.4.0
+	github.com/golang/protobuf v1.3.5
 	github.com/google/go-cmp v0.4.0 // indirect
 	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.8.1
 	github.com/pkg/errors v0.9.1
+	github.com/rotisserie/eris v0.1.1
+	github.com/solo-io/ext-auth-plugin-examples v0.3.0
 	github.com/solo-io/ext-auth-plugins v0.1.2
 	github.com/solo-io/go-utils v0.14.2
 	go.uber.org/multierr v1.4.0 // indirect
 	go.uber.org/zap v1.13.0
-	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f // indirect
 	golang.org/x/net v0.0.0-20200301022130-244492dfa37a // indirect
 	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
-	golang.org/x/tools v0.0.0-20200423204450-38a97e00a8a1 // indirect
 	google.golang.org/genproto v0.0.0-20200309141739-5b75447e413d // indirect
 	google.golang.org/grpc v1.28.0-pre.0.20200226185027-6cd03861bfd2 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect

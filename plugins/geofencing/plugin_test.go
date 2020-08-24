@@ -4,9 +4,9 @@ import (
 	"context"
 	"plugin"
 
+	impl "github.com/getndazn/ext-auth-plugin-examples/plugins/geofencing/pkg"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	impl "github.com/solo-io/ext-auth-plugin-examples/plugins/required_header/pkg"
 	"github.com/solo-io/ext-auth-plugins/api"
 )
 
@@ -14,7 +14,7 @@ var _ = Describe("Plugin", func() {
 
 	It("can be loaded", func() {
 
-		goPlugin, err := plugin.Open("RequiredHeader.so")
+		goPlugin, err := plugin.Open("GeoFencing.so")
 		Expect(err).NotTo(HaveOccurred())
 
 		pluginStructPtr, err := goPlugin.Lookup("Plugin")
@@ -29,7 +29,6 @@ var _ = Describe("Plugin", func() {
 		typedInstance, ok := instance.(*impl.Config)
 		Expect(ok).To(BeTrue())
 
-		Expect(typedInstance.RequiredHeader).To(BeEmpty())
-		Expect(typedInstance.AllowedValues).To(BeEmpty())
+		Expect(typedInstance.Endpoint).To(BeEmpty())
 	})
 })

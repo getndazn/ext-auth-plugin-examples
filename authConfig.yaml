@@ -1,3 +1,4 @@
+---
 apiVersion: enterprise.gloo.solo.io/v1
 kind: AuthConfig
 metadata:
@@ -11,3 +12,4 @@ spec:
       exportedSymbolName: plugin
       config:
         Endpoint: http://ip-api.com/json
+

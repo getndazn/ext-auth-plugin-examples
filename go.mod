@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	// Merged 'require' section of the Gloo depenencies and your go.mod file:
+	github.com/cncf/udpa/go v0.0.0-20200313221541-5f7e5dd04533
 	github.com/envoyproxy/go-control-plane v0.9.6-0.20200401235947-be7fefdaf0df
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/golang/protobuf v1.3.5
@@ -19,9 +20,10 @@ require (
 	go.uber.org/zap v1.13.0
 	golang.org/x/net v0.0.0-20200301022130-244492dfa37a // indirect
 	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
+	golang.org/x/text v0.3.3
 	google.golang.org/genproto v0.0.0-20200309141739-5b75447e413d // indirect
 	google.golang.org/grpc v1.28.0-pre.0.20200226185027-6cd03861bfd2 // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
 
 replace (

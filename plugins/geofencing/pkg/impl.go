@@ -70,44 +70,23 @@ func (c *GeoFencingAuthService) Authorize(ctx context.Context, request *api.Auth
 
 			logger(ctx).Infof("ip address: %s", ip)
 
-			data, err := getGeoFencingData(c.Endpoint, ip)
-			if err != nil {
-				return api.UnauthorizedResponse(), err
-			}
-
 			logger(ctx).Infof("geofencing data: %+v", data)
-
 			response := api.AuthorizedResponse()
 
-			response.CheckResponse.HttpResponse = &envoyauthv2.CheckResponse_OkResponse{
-				OkResponse: &envoyauthv2.OkHttpResponse{
-					Headers: []*envoycorev2.HeaderValueOption{
-						{
-							Header: &envoycorev2.HeaderValue{
-								Key:   "x-geofencing-country",
-								Value: data.Country,
-							},
-						},
-						{
-							Header: &envoycorev2.HeaderValue{
-								Key:   "x-geofencing-country-code",
-								Value: data.CountryCode,
-							},
-						},
-						{
-							Header: &envoycorev2.HeaderValue{
-								Key:   "x-geofencing-region",
-								Value: data.Region,
-							},
-						},
-						{
-							Header: &envoycorev2.HeaderValue{
-								Key:   "x-geofencing-region-Name",
-								Value: data.RegionName,
+			data, err := getGeoFencingData(c.Endpoint, ip)
+			if data.Status == "success" && err == nil {
+				response.CheckResponse.HttpResponse = &envoyauthv2.CheckResponse_OkResponse{
+					OkResponse: &envoyauthv2.OkHttpResponse{
+						Headers: []*envoycorev2.HeaderValueOption{
+							{
+								Header: &envoycorev2.HeaderValue{
+									Key:   "x-geolocation",
+									Value: fmt.Sprintf("lat=%v;lon=%v;country=%v;region=%v;", data.Lat, data.Lon, data.CountryCode, data.Region),
+								},
 							},
 						},
 					},
-				},
+				}
 			}
 
 			logger(ctx).Infof("geofencing data: %+v", response.CheckResponse.GetOkResponse().String())
@@ -148,13 +127,13 @@ func getGeoFencingData(endpoint, ip string) (*GeoFencingResponse, error) {
 		return nil, err
 	}
 
-	gfResp := &GeoFencingResponse{}
+	gfResp := GeoFencingResponse{}
 
 	if err := json.Unmarshal(body, &gfResp); err != nil {
 		return nil, err
 	}
 
-	return gfResp, nil
+	return &gfResp, nil
 }
 
 func logger(ctx context.Context) *zap.SugaredLogger {

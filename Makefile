@@ -1,7 +1,7 @@
-.PHONY: format
-format:
-	gofmt -w -e plugins scripts
-	goimports -w -e plugins scripts
+# .PHONY: format
+# format:
+# 	gofmt -w -e plugins scripts
+# 	goimports -w -e plugins scripts
 
 #----------------------------------------------------------------------------------
 # Set build variables

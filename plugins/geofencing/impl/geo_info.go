@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type geoFencingResponse struct {
+type geoLocationResponse struct {
 	Query       string  `json:"query"`
 	Status      string  `json:"status"`
 	Country     string  `json:"country"`
@@ -36,7 +36,7 @@ var client *http.Client = &http.Client{
 	},
 }
 
-func getGeoFencingData(ip string) (*geoFencingResponse, error) {
+func getGeoLocationData(ip string) (*geoLocationResponse, error) {
 	url := fmt.Sprintf("%s/%s", endpoint, ip)
 	resp, err := client.Get(url)
 
@@ -47,7 +47,7 @@ func getGeoFencingData(ip string) (*geoFencingResponse, error) {
 	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
-	gfResp := geoFencingResponse{}
+	gfResp := geoLocationResponse{}
 
 	if err := decoder.Decode(&gfResp); err != nil {
 		return nil, err
@@ -56,6 +56,6 @@ func getGeoFencingData(ip string) (*geoFencingResponse, error) {
 	return &gfResp, nil
 }
 
-func (g *geoFencingResponse) headerString() string {
-	return fmt.Sprintf("lat=%v;lon=%v;country=%v;region=%v;city=%v", g.Lat, g.Lon, g.CountryCode, g.Region, g.City)
+func (g *geoLocationResponse) headerString() string {
+	return fmt.Sprintf("lat=%v;lon=%v;country=%s;region=%s;city=%s", g.Lat, g.Lon, g.CountryCode, g.Region, g.City)
 }

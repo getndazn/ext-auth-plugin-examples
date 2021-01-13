@@ -40,7 +40,7 @@ func (p *GeoFencingPlugin) GetAuthService(ctx context.Context, configInstance in
 
 type (
 	GeoFencingAuthService       struct{}
-	additionalHeaderBuilderFunc func(ctx context.Context, requestHeaders map[string]string) (*envoycorev2.HeaderValueOption, error)
+	additionalHeaderBuilderFunc func(requestHeaders map[string]string) (*envoycorev2.HeaderValueOption, error)
 )
 
 func (c *GeoFencingAuthService) Start(context.Context) error {
@@ -50,7 +50,7 @@ func (c *GeoFencingAuthService) Start(context.Context) error {
 
 func (c *GeoFencingAuthService) Authorize(ctx context.Context, request *api.AuthorizationRequest) (*api.AuthorizationResponse, error) {
 	var additionalHeaderBuilders []additionalHeaderBuilderFunc = []additionalHeaderBuilderFunc{
-		getGeoIpHeader,
+		getGeoLocationHeader,
 	}
 
 	requestHeaders := request.CheckRequest.GetAttributes().GetRequest().GetHttp().GetHeaders()
@@ -69,8 +69,8 @@ func (c *GeoFencingAuthService) Authorize(ctx context.Context, request *api.Auth
 	}
 
 	for _, fn := range additionalHeaderBuilders {
-		if respHeader, err := fn(ctx, requestHeaders); err != nil {
-			responseHeaders[i] = respHeader
+		if r, err := fn(requestHeaders); err != nil {
+			responseHeaders[i] = r
 			i++
 		} else {
 			logger(ctx).Warn(err)
@@ -89,11 +89,11 @@ func logger(ctx context.Context) *zap.SugaredLogger {
 	return contextutils.LoggerFrom(contextutils.WithLogger(ctx, "geofencing_plugin"))
 }
 
-func getGeoIpHeader(ctx context.Context, requestHeaders map[string]string) (*envoycorev2.HeaderValueOption, error) {
+func getGeoLocationHeader(requestHeaders map[string]string) (*envoycorev2.HeaderValueOption, error) {
 	for key, value := range requestHeaders {
 		if key == "X-Forwarded-For" || key == "x-forwarded-for" {
 			ip := strings.SplitN(value, ",", 1)[0]
-			data, err := getGeoFencingData(ip)
+			data, err := getGeoLocationData(ip)
 
 			return &envoycorev2.HeaderValueOption{
 				Header: &envoycorev2.HeaderValue{
